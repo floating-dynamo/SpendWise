@@ -4,12 +4,14 @@ import App from './App.tsx';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './components/layouts/theme-provider.tsx';
+import { Toaster } from '@/components/ui/toaster';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
         <App />
+        <Toaster />
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>

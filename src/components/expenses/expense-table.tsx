@@ -1,13 +1,17 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '../ui/badge';
-import { Expense } from '@/lib/models';
+import { Expense, PayeeList, PayementMethodList } from '@/lib/models';
+import { Trash } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface ExpenseTableProps {
   expenses: Expense[];
+  payeeList: PayeeList[];
+  payementMethodList: PayementMethodList[];
 }
 
-const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
-  console.log(expenses)
+const ExpenseTable = ({ expenses, payeeList, payementMethodList }: ExpenseTableProps) => {
+  const defaultLabelValue = 'Not Provided';
   return (
     <div className='py-5'>
       <Table>
@@ -18,6 +22,7 @@ const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
             <TableHead className='hidden sm:table-cell'>Payee</TableHead>
             <TableHead className='hidden md:table-cell'>Date</TableHead>
             <TableHead className='text-right'>Amount</TableHead>
+            <TableHead className='text-center'>Delete Expense</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -27,14 +32,21 @@ const ExpenseTable = ({ expenses }: ExpenseTableProps) => {
                 <TableCell>
                   <div className='font-medium'>{expense.content}</div>
                 </TableCell>
-                <TableCell className='hidden sm:table-cell'>{expense.method}</TableCell>
+                <TableCell className='hidden sm:table-cell'>
+                  {payementMethodList.find((method) => method.value === expense.method)?.label ?? defaultLabelValue}
+                </TableCell>
                 <TableCell className='hidden sm:table-cell'>
                   <Badge className='text-xs' variant='secondary'>
-                    {expense.payee}
+                    {payeeList.find((payee) => payee.value === expense.payee)?.label ?? defaultLabelValue}
                   </Badge>
                 </TableCell>
-                <TableCell className='hidden md:table-cell'>{expense.date.toString()}</TableCell>
+                <TableCell className='hidden md:table-cell'>{expense.date.toDateString()}</TableCell>
                 <TableCell className='text-right'>₹{expense.amount}</TableCell>
+                <TableCell className='text-center'>
+                  <Button size='icon' className='hover:bg-red-500 hover:text-slate-100' variant='outline'>
+                    <Trash className='w-4 h-4'/>
+                  </Button>
+                </TableCell>
               </TableRow>
             );
           })}

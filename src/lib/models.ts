@@ -20,6 +20,16 @@ export interface Expense {
   amount: number;
 }
 
+export interface PayeeList {
+  label: string;
+  value: string;
+}
+
+export interface PayementMethodList {
+  label: string;
+  value: string;
+}
+
 export interface GetSummaryResponse {
   totalExpensesThisMonth: number;
   totalExpensesThisYear: number;
@@ -33,9 +43,28 @@ export interface GetExpensesResponse {
   expenses: Expense[];
 }
 
+export interface GetPayeeListResponse {
+  payeeList: PayeeList[];
+}
+
+export interface GetPayementMethodListResponse {
+  paymentMethodList: PayementMethodList[];
+}
+
+export interface AddExpenseResponse {
+  message: string;
+}
+
+export interface AddExpensePayload {
+  expense: Expense;
+}
+
 export interface APIService {
   getSummary: () => Promise<GetSummaryResponse>;
   getExpenses: () => Promise<GetExpensesResponse>;
+  getPayeeList: () => Promise<GetPayeeListResponse>;
+  getPayementMethodList: () => Promise<GetPayementMethodListResponse>;
+  addExpense: ({ expense }: AddExpensePayload) => Promise<AddExpenseResponse>;
 }
 
 export interface SectionItem {

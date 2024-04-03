@@ -4,7 +4,7 @@ import ContainerPadding from '@/components/layouts/container-padding';
 import LoaderSpinner from '@/components/shared/loader-spinner';
 import PageTitle from '@/components/shared/page-title';
 import { Button } from '@/components/ui/button';
-import { Expense } from '@/lib/models';
+import { Expense, PayeeList, PayementMethodList } from '@/lib/models';
 import service from '@/services';
 import { CreditCard, PlusCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -12,13 +12,25 @@ import { useEffect, useState } from 'react';
 const ExpensesPage = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [payeeList, setPayeeList] = useState<PayeeList[]>([]);
+  const [payementMethodList, setPayementMethodList] = useState<PayementMethodList[]>([]);
+  const [reRenderExpenses, setRerenderExpenses] = useState<boolean>(false)
+  useEffect(() => {
+    async function fetchData() {
+      const payeeData = await service.getPayeeList();
+      setPayeeList(payeeData.payeeList);
+
+      const payementMethodData = await service.getPayementMethodList();
+      setPayementMethodList(payementMethodData.paymentMethodList);
+    }
+    fetchData();
+  }, [reRenderExpenses]);
 
   useEffect(() => {
     async function fetchExpenses() {
       try {
         setIsLoading(true);
         const data = await service.getExpenses();
-        console.log('Data', data);
         setExpenses(data.expenses);
       } catch (error) {
         console.log(error);
@@ -27,7 +39,7 @@ const ExpensesPage = () => {
       }
     }
     fetchExpenses();
-  }, []);
+  }, [reRenderExpenses]);
 
   const PageTitleExpenses = () => (
     <PageTitle
@@ -59,8 +71,11 @@ const ExpensesPage = () => {
               Add Expense <PlusCircle className='w-5 h-5' />
             </Button>
           }
+          payeeList={payeeList}
+          payementMethodList={payementMethodList}
+          setRerenderExpenses={setRerenderExpenses}
         />
-        <ExpenseTable expenses={expenses} />
+        <ExpenseTable expenses={expenses} payeeList={payeeList} payementMethodList={payementMethodList} />
       </div>
     </ContainerPadding>
   );

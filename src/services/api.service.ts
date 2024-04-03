@@ -25,6 +25,30 @@ const apiService: APIService = {
       throw new Error(`Error fetching expenses: ${(error as Error).stack}`);
     }
   },
+  async getPayeeList() {
+    try {
+      const response = await axiosInstance.get('/payeeList');
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching Payee List: ${(error as Error).stack}`);
+    }
+  },
+  async getPayementMethodList() {
+    try {
+      const response = await axiosInstance.get('/payementMethodList');
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching Payee List: ${(error as Error).stack}`);
+    }
+  },
+  async addExpense({ expense }) {
+    try {
+      const response = await axiosInstance.post('/addExpense', expense);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error while adding the Expense: ${(error as Error).stack}`);
+    }
+  },
 };
 
 export default apiService;
