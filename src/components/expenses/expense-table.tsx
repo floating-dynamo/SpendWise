@@ -4,6 +4,8 @@ import { Expense, PayeeList, PayementMethodList } from '@/lib/models';
 import { Trash } from 'lucide-react';
 import { Button } from '../ui/button';
 import DeleteExpenseModal from './delete-expense-modal';
+import ContainerPadding from '../layouts/container-padding';
+import noExpenseImg from '@/assets/expenses/no_expense.svg';
 
 interface ExpenseTableProps {
   expenses: Expense[];
@@ -13,6 +15,17 @@ interface ExpenseTableProps {
 }
 
 const ExpenseTable = ({ expenses, payeeList, payementMethodList, setRerenderExpenses }: ExpenseTableProps) => {
+  if (!expenses.length) {
+    return (
+      <ContainerPadding>
+        <div className='flex items-center justify-center flex-col gap-10'>
+          <p className='font-bold text-xl md:text-2xl'>No Expenses Added, add one for it to show here.</p>
+          <img src={noExpenseImg} alt='No Expense' className='w-48' />
+        </div>
+      </ContainerPadding>
+    );
+  }
+
   const defaultLabelValue = 'Not Provided';
   return (
     <div className='py-5'>
