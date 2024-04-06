@@ -49,6 +49,14 @@ const apiService: APIService = {
       throw new Error(`Error while adding the Expense: ${(error as Error).stack}`);
     }
   },
+  async deleteExpense({ id }) {
+    try {
+      const response = await axiosInstance.delete(`/deleteExpense/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error while deleting the Expense: ${(error as Error).stack}`);
+    }
+  },
 };
 
 export default apiService;

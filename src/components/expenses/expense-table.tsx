@@ -3,14 +3,16 @@ import { Badge } from '../ui/badge';
 import { Expense, PayeeList, PayementMethodList } from '@/lib/models';
 import { Trash } from 'lucide-react';
 import { Button } from '../ui/button';
+import DeleteExpenseModal from './delete-expense-modal';
 
 interface ExpenseTableProps {
   expenses: Expense[];
   payeeList: PayeeList[];
   payementMethodList: PayementMethodList[];
+  setRerenderExpenses: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ExpenseTable = ({ expenses, payeeList, payementMethodList }: ExpenseTableProps) => {
+const ExpenseTable = ({ expenses, payeeList, payementMethodList, setRerenderExpenses }: ExpenseTableProps) => {
   const defaultLabelValue = 'Not Provided';
   return (
     <div className='py-5'>
@@ -43,9 +45,15 @@ const ExpenseTable = ({ expenses, payeeList, payementMethodList }: ExpenseTableP
                 <TableCell className='hidden md:table-cell'>{expense.date.toDateString()}</TableCell>
                 <TableCell className='text-right'>₹{expense.amount}</TableCell>
                 <TableCell className='text-center'>
-                  <Button size='icon' className='hover:bg-red-500 hover:text-slate-100' variant='outline'>
-                    <Trash className='w-4 h-4'/>
-                  </Button>
+                  <DeleteExpenseModal
+                    trigger={
+                      <Button size='icon' className='hover:bg-red-500 hover:text-slate-100' variant='outline'>
+                        <Trash className='w-4 h-4' />
+                      </Button>
+                    }
+                    id={expense.id}
+                    setRerenderExpenses={setRerenderExpenses}
+                  />
                 </TableCell>
               </TableRow>
             );

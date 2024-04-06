@@ -42,7 +42,8 @@ const AddExpenseModal = ({ trigger, payeeList, payementMethodList, setRerenderEx
 
   async function addNewExpense() {
     console.log('Adding...');
-    const expense: Expense = { amount, content, method: payementMethod, payee, date: new Date() };
+    const id = `${Math.floor(Math.random() * 1000000)}`;
+    const expense: Expense = { id, amount, content, method: payementMethod, payee, date: new Date() };
     try {
       setIsLoading(true);
       await service.addExpense({ expense });

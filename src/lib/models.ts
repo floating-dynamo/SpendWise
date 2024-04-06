@@ -13,6 +13,7 @@ export enum PathNames {
 }
 
 export interface Expense {
+  id: string;
   content: string;
   method: string;
   payee: string;
@@ -59,12 +60,19 @@ export interface AddExpensePayload {
   expense: Expense;
 }
 
+export interface DeleteExpensePayload {
+  id: string;
+}
+
+export interface DeleteExpenseResponse extends AddExpenseResponse {}
+
 export interface APIService {
   getSummary: () => Promise<GetSummaryResponse>;
   getExpenses: () => Promise<GetExpensesResponse>;
   getPayeeList: () => Promise<GetPayeeListResponse>;
   getPayementMethodList: () => Promise<GetPayementMethodListResponse>;
   addExpense: ({ expense }: AddExpensePayload) => Promise<AddExpenseResponse>;
+  deleteExpense: ({ id }: DeleteExpensePayload) => Promise<DeleteExpenseResponse>;
 }
 
 export interface SectionItem {

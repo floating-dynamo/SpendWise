@@ -14,7 +14,7 @@ const ExpensesPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [payeeList, setPayeeList] = useState<PayeeList[]>([]);
   const [payementMethodList, setPayementMethodList] = useState<PayementMethodList[]>([]);
-  const [reRenderExpenses, setRerenderExpenses] = useState<boolean>(false)
+  const [reRenderExpenses, setRerenderExpenses] = useState<boolean>(false);
   useEffect(() => {
     async function fetchData() {
       const payeeData = await service.getPayeeList();
@@ -75,7 +75,12 @@ const ExpensesPage = () => {
           payementMethodList={payementMethodList}
           setRerenderExpenses={setRerenderExpenses}
         />
-        <ExpenseTable expenses={expenses} payeeList={payeeList} payementMethodList={payementMethodList} />
+        <ExpenseTable
+          expenses={expenses}
+          payeeList={payeeList}
+          payementMethodList={payementMethodList}
+          setRerenderExpenses={setRerenderExpenses}
+        />
       </div>
     </ContainerPadding>
   );

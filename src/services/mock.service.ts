@@ -42,6 +42,14 @@ const mockService: APIService = {
       }, 1000);
     });
   },
+  async deleteExpense({ id }) {
+    mockGetExpensesResponse.expenses = mockGetExpensesResponse.expenses.filter((expense) => expense.id !== id);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ message: 'Expense Deleted successfully' });
+      }, 1000);
+    });
+  },
 };
 
 export default mockService;
